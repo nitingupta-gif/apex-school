@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Apex Elite International School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --royal-blue: #0a1128;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --off-white: #fcfcfc;
+            --text-dark: #1a1a1a;
+            --text-gray: #666666;
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2, h3, .logo-text { font-family: 'Playfair Display', serif; }
+
+        header { 
+            position: fixed; width: 100%; top: 0; z-index: 999; 
+            padding: 20px 50px; background: rgba(10, 17, 40, 0.95);
+            backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; flex-direction: column; text-decoration: none; }
+        .logo-text { font-size: 2rem; color: var(--white); font-weight: 700; letter-spacing: 1px; line-height: 1; }
+        .logo-sub { font-size: 0.65rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; margin-top: 5px; }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--transition-smooth); }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        
+        .btn-gold {
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 10px 22px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: var(--transition-smooth); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-gold:hover { background: var(--gold); color: var(--royal-blue); }
+
+        .page-banner {
+            height: 60vh; background: linear-gradient(rgba(10,17,40,0.8), rgba(10,17,40,0.7)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); margin-top: 80px; padding: 0 20px;
+        }
+        .page-banner h1 { font-size: 4rem; color: var(--gold); margin-bottom: 15px; }
+        .page-banner p { font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+
+        .about-container { max-width: 1200px; margin: 80px auto; padding: 0 30px; }
+        
+        .section-block { display: flex; gap: 60px; align-items: center; margin-bottom: 100px; }
+        .section-block.reverse { flex-direction: row-reverse; }
+        
+        .text-content { flex: 1; }
+        .text-content h4 { color: var(--gold); font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; }
+        .text-content h2 { font-size: 2.8rem; color: var(--royal-blue); line-height: 1.2; margin-bottom: 25px; }
+        .text-content p { color: var(--text-gray); line-height: 1.8; font-size: 1rem; margin-bottom: 20px; }
+
+        .image-content { flex: 1; position: relative; }
+        .image-content img { width: 100%; height: 400px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-bottom: 5px solid var(--gold); }
+
+        .activities-section { background: #f1f5f9; padding: 100px 30px; margin-top: 60px; }
+        .activities-header { text-align: center; max-width: 700px; margin: 0 auto 60px; }
+        .activities-header h2 { font-size: 3rem; color: var(--royal-blue); margin-bottom: 15px; }
+        .activities-header p { color: var(--text-gray); }
+
+        .activities-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .activity-card { background: var(--white); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; }
+        .activity-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .activity-card img { width: 100%; height: 220px; object-fit: cover; }
+        .activity-body { padding: 30px; }
+        .activity-body h3 { font-size: 1.4rem; color: var(--royal-blue); margin-bottom: 12px; }
+        .activity-body p { color: var(--text-gray); font-size: 0.92rem; line-height: 1.6; }
+
+        footer { background: var(--royal-blue); padding: 50px; color: var(--white); text-align: center; }
+        .copyright { color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; margin-top: 20px; }
+
+        @media (max-width: 900px) {
+            .section-block, .section-block.reverse { flex-direction: column; gap: 30px; }
+            .activities-grid { grid-template-columns: 1fr; }
+            .page-banner h1 { font-size: 3rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-wrapper">
+            <a href="/" class="logo">
+                <span class="logo-text">Apex Elite</span>
+                <span class="logo-sub">International</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/about" class="active">About Us</a></li>
+                <li><a href="/#notices">Notices</a></li>
+                <li><a href="/teacher-login">Teacher Login</a></li>
+                <li><a href="/student-login">Student Login</a></li>
+            </ul>
+            <a href="tel:9171539844" class="btn-gold"><i class="fas fa-phone-alt"></i> Give a Call</a>
+        </div>
+    </header>
+
+    <div class="page-banner" data-aos="fade-in">
+        <div>
+            <h1>Legacy of Excellence</h1>
+            <p>Discover the heritage, vision, and vibrant life at Apex Elite</p>
+        </div>
+    </div>
+
+    <div class="about-container">
+        <div class="section-block" data-aos="fade-up">
+            <div class="text-content">
+                <h4>Our Heritage</h4>
+                <h2>Founded in 1998 with a Vision for Global Leadership</h2>
+                <p>Apex Elite International School ki sthapna 1998 mein ek visionary educational mission ke sath ki gayi thi. Shuruwat se hi hamara uddeshya students ko kewal kitabi gyan dena nahi, balki unme critical thinking, leadership, aur global perspective develop karna raha hai.</p>
+                <p>In pichle dashakon mein, hamne 50+ acres ke is sprawling campus mein world-class academic blocks, high-tech science labs, aur sports arenas ko viksit kiya hai jo aaj ke modern yug ki zarooraton ko poora karte hain.</p>
+            </div>
+            <div class="image-content">
+                <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80" alt="School Campus History">
+            </div>
+        </div>
+
+        <div class="section-block reverse" data-aos="fade-up">
+            <div class="text-content">
+                <h4>Core Philosophy</h4>
+                <h2>Cultivating Brilliance & Character</h2>
+                <p>Hamara maanna hai ki har bachha anokha hota hai. Hamari pedagogy (shiksha pranali) experiential learning par adharit hai jahan students classrooms ke bahar real-world problems ko solve karna seekhte hain.</p>
+                <p>Hum moral values, discipline, aur creativity ko equal importance dete hain taaki hamare graduates duniya ke kisi bhi kone mein jaakar apni ek alag pehchan bana sakein.</p>
+            </div>
+            <div class="image-content">
+                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Students Learning">
+            </div>
+        </div>
+    </div>
+
+    <div class="activities-section">
+        <div class="activities-header" data-aos="fade-up">
+            <h4>Campus Life</h4>
+            <h2>Co-Curricular & Student Activities</h2>
+            <p>Apex Elite mein padhai ke sath-sath students ke sarvangin vikas (holistic development) ke liye multiple activity clubs aur sports facilities uplabdh hain.</p>
+        </div>
+
+        <div class="activities-grid">
+            <div class="activity-card" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80" alt="Robotics Lab">
+                <div class="activity-body">
+                    <h3>Robotics & Tech Lab</h3>
+                    <p>Students AI, coding, aur robotics ke practical models banate hain taaki tech-driven future ke liye taiyar ho sakein.</p>
+                </div>
+            </div>
+
+            <div class="activity-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" alt="Sports Arena">
+                <div class="activity-body">
+                    <h3>Sports & Athletics</h3>
+                    <p>International standard football turf, basketball courts, aur indoor games training ke sath physical fitness par zor.</p>
+                </div>
+            </div>
+
+            <div class="activity-card" data-aos="fade-up" data-aos-delay="300">
+                <img src="https://images.unsplash.com/photo-1460518451285-97b6aa726915?auto=format&fit=crop&w=600&q=80" alt="Arts and Music">
+                <div class="activity-body">
+                    <h3>Fine Arts & Orchestra</h3>
+                    <p>Classical & western music, cinematic background composition, painting, aur theater ke liye dedicated studios.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="/" class="logo" style="display:inline-block; margin-bottom: 15px;">
+            <span class="logo-text" style="font-size: 1.5rem;">Apex Elite</span>
+        </a>
+        <p>Empowering minds and shaping futures since 1998.</p>
+        <div class="copyright">
+            &copy; 2026 APEX ELITE INSTITUTION. CURATED BY AMAN GUPTA.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 100 });
+    </script>
+</body>
+</html>

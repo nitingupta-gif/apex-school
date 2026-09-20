@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Notices | Apex Elite International School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --royal-blue: #0a1128;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --off-white: #fcfcfc;
+            --text-dark: #1a1a1a;
+            --text-gray: #666666;
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2, h3, .logo-text { font-family: 'Playfair Display', serif; }
+
+        header { 
+            position: fixed; width: 100%; top: 0; z-index: 999; 
+            padding: 20px 50px; background: rgba(10, 17, 40, 0.95);
+            backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; flex-direction: column; text-decoration: none; }
+        .logo-text { font-size: 2rem; color: var(--white); font-weight: 700; letter-spacing: 1px; line-height: 1; }
+        .logo-sub { font-size: 0.65rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; margin-top: 5px; }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--transition-smooth); }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        
+        .btn-gold {
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 10px 22px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: var(--transition-smooth); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-gold:hover { background: var(--gold); color: var(--royal-blue); }
+
+        .page-banner {
+            height: 50vh; background: linear-gradient(rgba(10,17,40,0.85), rgba(10,17,40,0.75)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); margin-top: 80px; padding: 0 20px;
+        }
+        .page-banner h1 { font-size: 3.5rem; color: var(--gold); margin-bottom: 10px; }
+        .page-banner p { font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+
+        .notices-container { max-width: 1000px; margin: 80px auto; padding: 0 30px; }
+        
+        .notice-card {
+            background: var(--white); padding: 40px; margin-bottom: 30px;
+            border-left: 3px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            display: flex; gap: 30px; transition: 0.3s;
+        }
+        .notice-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .notice-date { min-width: 80px; text-align: center; background: #f8fafc; padding: 15px 10px; border-radius: 5px; height: fit-content; }
+        .notice-date .day { font-size: 2rem; font-family: 'Playfair Display', serif; color: var(--royal-blue); line-height: 1; }
+        .notice-date .month { font-size: 0.75rem; color: var(--gold); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-top: 5px; display: block; }
+        
+        .notice-body h3 { font-size: 1.5rem; color: var(--royal-blue); margin-bottom: 10px; }
+        .notice-body p { color: var(--text-gray); line-height: 1.7; font-size: 0.95rem; margin-bottom: 15px; }
+        .notice-publisher { font-size: 0.75rem; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        footer { background: var(--royal-blue); padding: 50px; color: var(--white); text-align: center; }
+        .copyright { color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; margin-top: 20px; }
+
+        @media (max-width: 768px) {
+            .notice-card { flex-direction: column; gap: 15px; }
+            .notice-date { display: flex; align-items: center; gap: 10px; padding: 10px; }
+            .notice-date .day { font-size: 1.5rem; }
+            .page-banner h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-wrapper">
+            <a href="/" class="logo">
+                <span class="logo-text">Apex Elite</span>
+                <span class="logo-sub">International</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/notices" class="active">Notices</a></li>
+                <li><a href="/teacher-login">Teacher Login</a></li>
+                <li><a href="/student-login">Student Login</a></li>
+            </ul>
+            <a href="tel:9171539844" class="btn-gold"><i class="fas fa-phone-alt"></i> Give a Call</a>
+        </div>
+    </header>
+
+    <div class="page-banner" data-aos="fade-in">
+        <div>
+            <h1>School Announcements</h1>
+            <p>All official notices, updates, and dispatches</p>
+        </div>
+    </div>
+
+    <div class="notices-container">
+        {% if notices %}
+            {% for notice in notices %}
+            <div class="notice-card" data-aos="fade-up">
+                <div class="notice-date">
+                    <span class="day">{{ notice[1].split(' ')[0] }}</span>
+                    <span class="month">{{ notice[1].split(' ')[1] }}</span>
+                </div>
+                <div class="notice-body">
+                    <h3>{{ notice[2] }}</h3>
+                    <p>{{ notice[3] }}</p>
+                    <span class="notice-publisher"><i class="fas fa-user-circle"></i> Published by: {{ notice[4] or 'Admin' }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div style="text-align: center; padding: 50px;">
+                <h3 style="color: var(--text-gray); font-family: 'Playfair Display', serif; font-size: 1.8rem;">No notices available at the moment.</h3>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <a href="/" class="logo" style="display:inline-block; margin-bottom: 15px;">
+            <span class="logo-text" style="font-size: 1.5rem;">Apex Elite</span>
+        </a>
+        <p>Empowering minds and shaping futures since 1998.</p>
+        <div class="copyright">
+            &copy; 2026 APEX ELITE INSTITUTION. CURATED BY AMAN GUPTA.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 100 });
+    </script>
+</body>
+</html>

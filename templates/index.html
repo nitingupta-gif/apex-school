@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Elite | International School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --royal-blue: #0a1128;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --off-white: #fcfcfc;
+            --text-dark: #1a1a1a;
+            --text-gray: #666666;
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2, h3, .logo-text { font-family: 'Playfair Display', serif; }
+
+        header { 
+            position: fixed; width: 100%; top: 0; z-index: 999; 
+            padding: 25px 50px; transition: var(--transition-smooth);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+        header.scrolled {
+            background: rgba(10, 17, 40, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 18px 50px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { display: flex; flex-direction: column; text-decoration: none; }
+        .logo-text { font-size: 2rem; color: var(--white); font-weight: 700; letter-spacing: 1px; line-height: 1; transition: var(--transition-smooth); }
+        .logo:hover .logo-text { color: var(--gold); }
+        .logo-sub { font-size: 0.65rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; margin-top: 5px; }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--transition-smooth); position: relative; }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0;
+            background-color: var(--gold); transition: var(--transition-smooth);
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--gold); }
+        
+        .btn-gold {
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 12px 25px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: var(--transition-smooth); position: relative; overflow: hidden; z-index: 1;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-gold::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--gold); transition: var(--transition-smooth); z-index: -1;
+        }
+        .btn-gold:hover::before { left: 0; }
+        .btn-gold:hover { color: var(--royal-blue); box-shadow: 0 10px 25px rgba(197, 160, 89, 0.4); transform: translateY(-3px); }
+
+        .hero { height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; }
+        .hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .hero-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            opacity: 0; transition: opacity 1.5s ease-in-out, transform 6s ease-in-out;
+            transform: scale(1);
+        }
+        .hero-slide.active { opacity: 1; transform: scale(1.08); }
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 2;
+            background: linear-gradient(90deg, rgba(10,17,40,0.92) 0%, rgba(10,17,40,0.5) 100%);
+        }
+        .hero-content { position: relative; z-index: 3; max-width: 1400px; margin: 0 auto; width: 100%; padding: 0 50px; margin-top: 50px; }
+        .hero-subtitle { color: var(--gold); font-size: 1rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; display: block; }
+        .hero-title { color: var(--white); font-size: 5.5rem; font-weight: 600; line-height: 1.1; max-width: 800px; margin-bottom: 30px; }
+        .hero-title span { font-style: italic; color: var(--gold); font-weight: 400; }
+
+        .slider-dots { position: absolute; bottom: 30px; right: 50px; z-index: 4; display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--gold); width: 25px; border-radius: 5px; }
+
+        .stats-container {
+            max-width: 1200px; margin: -80px auto 0; position: relative; z-index: 10;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 50px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); padding: 40px 30px;
+            border-top: 3px solid var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.06); text-align: center; transition: var(--transition-smooth);
+        }
+        .stat-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(10, 17, 40, 0.12); }
+        .stat-num { font-size: 3.5rem; color: var(--royal-blue); font-family: 'Playfair Display', serif; line-height: 1; margin-bottom: 10px; transition: var(--transition-smooth); }
+        .stat-card:hover .stat-num { color: var(--gold); }
+        .stat-label { font-size: 0.8rem; color: var(--text-gray); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+
+        .notice-section { max-width: 1400px; margin: 130px auto; padding: 0 50px; display: flex; gap: 80px; align-items: flex-start; }
+        .notice-header { flex: 0.8; position: sticky; top: 140px; }
+        .notice-header h4 { color: var(--gold); font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; }
+        .notice-header h2 { font-size: 3.5rem; color: var(--royal-blue); line-height: 1.2; margin-bottom: 30px; }
+        .notice-header p { color: var(--text-gray); font-weight: 300; line-height: 1.8; margin-bottom: 30px; }
+
+        .notice-feed { flex: 1.2; }
+        .notice-card {
+            background: var(--white); padding: 45px; margin-bottom: 30px;
+            border-left: 2px solid rgba(197, 160, 89, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: var(--transition-smooth); display: flex; gap: 30px;
+        }
+        .notice-card:hover {
+            box-shadow: 0 25px 50px rgba(10, 17, 40, 0.08);
+            border-left: 4px solid var(--gold); transform: translateY(-8px) translateX(5px);
+        }
+        .notice-date { min-width: 80px; }
+        .notice-date .day { font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--royal-blue); line-height: 1; transition: var(--transition-smooth); }
+        .notice-card:hover .notice-date .day { color: var(--gold); }
+        .notice-date .month { font-size: 0.85rem; color: var(--gold); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        .notice-body h3 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 10px; font-weight: 600; }
+        .notice-body p { color: var(--text-gray); line-height: 1.7; font-size: 0.95rem; }
+        .notice-publisher { font-size: 0.75rem; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; display: inline-block; }
+
+        footer { background: var(--royal-blue); padding: 60px 50px 30px; color: var(--white); }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px; margin-bottom: 30px; }
+        .copyright { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; }
+        .admin-secret-link { color: rgba(255,255,255,0.2); font-size: 0.7rem; text-decoration: none; transition: 0.3s; }
+        .admin-secret-link:hover { color: var(--gold); }
+
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 4rem; }
+            .stats-container { grid-template-columns: 1fr; gap: 20px; padding: 0 20px; }
+            .notice-section { flex-direction: column; gap: 40px; }
+            .notice-header { position: relative; top: 0; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="navbar">
+        <div class="nav-wrapper">
+            <a href="#" class="logo">
+                <span class="logo-text">Apex Elite</span>
+                <span class="logo-sub">International</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/notices">Notices</a></li>
+                <li><a href="/teacher-login">Teacher Login</a></li>
+                <li><a href="/student-login">Student Login</a></li>
+            </ul>
+            <a href="tel:9171539844" class="btn-gold"><i class="fas fa-phone-alt"></i> Give a Call</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-slider" id="heroSlider">
+            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1606761568499-6d2451b23c66?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80')"></div>
+        </div>
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1500">
+            <span class="hero-subtitle">Est. 1998</span>
+            <h1 class="hero-title">Cultivating <span>Brilliance</span> for Tomorrow.</h1>
+            <a href="tel:9171539844" class="btn-gold" style="padding: 15px 40px;"><i class="fas fa-phone-alt"></i> Call Us Now</a>
+        </div>
+
+        <div class="slider-dots" id="sliderDots"></div>
+    </section>
+
+    <div class="stats-container" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat-card">
+            <div class="stat-num">50+</div>
+            <div class="stat-label">Acres of Campus</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Ivy League Acceptance</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">12:1</div>
+            <div class="stat-label">Student-Faculty Ratio</div>
+        </div>
+    </div>
+
+    <section class="notice-section" id="notices">
+        <div class="notice-header" data-aos="fade-right" data-aos-duration="1000">
+            <h4>Announcements</h4>
+            <h2>Latest<br>Dispatches</h2>
+            <p>Stay informed with the latest updates, event schedules, and academic announcements from our faculty.</p>
+            <a href="/notices" class="btn-gold" style="margin-bottom: 15px; display: inline-flex;">View All Notices</a><br>
+            <a href="/teacher-login" style="color: var(--royal-blue); text-decoration: underline; font-size: 0.85srem; font-weight: 600;">Faculty Portal Login</a>
+        </div>
+        
+        <div class="notice-feed">
+            {% if notices %}
+                {% for notice in notices %}
+                <div class="notice-card" data-aos="fade-up" data-aos-duration="800">
+                    <div class="notice-date">
+                        <div class="day">{{ notice[1].split(' ')[0] }}</div>
+                        <div class="month">{{ notice[1].split(' ')[1] }}</div>
+                    </div>
+                    <div class="notice-body">
+                        <h3>{{ notice[2] }}</h3>
+                        <p>{{ notice[3] }}</p>
+                        <span class="notice-publisher"><i class="fas fa-user-circle"></i> Published by: {{ notice[4] or 'Admin' }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="notice-card">
+                    <div class="notice-body">
+                        <h3 style="color: var(--text-gray);">Archive is currently empty.</h3>
+                        <p>New announcements will appear here once published.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <a href="#" class="logo footer-logo">
+                <span class="logo-text">Apex Elite</span>
+                <span class="logo-sub">International</span>
+            </a>
+            <a href="/admin-login" class="admin-secret-link">System Admin</a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 APEX ELITE INSTITUTION. CURATED BY AMAN GUPTA.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 100 });
+        
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        const slides = document.querySelectorAll('.hero-slide');
+        const dotsContainer = document.getElementById('sliderDots');
+        let currentSlide = 0;
+        const slideIntervalTime = 5000;
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, slideIntervalTime);
+    </script>
+</body>
+</html>
