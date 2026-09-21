@@ -27,16 +27,16 @@
         header { 
             position: fixed; width: 100%; top: 0; z-index: 999; 
             padding: 25px 50px; transition: var(--transition-smooth);
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
         }
         header.scrolled {
-            background: rgba(10, 17, 40, 0.95);
+            background: rgba(10, 17, 40, 0.98);
             backdrop-filter: blur(15px);
             padding: 18px 50px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
-        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; position: relative; }
         .logo { display: flex; flex-direction: column; text-decoration: none; }
         .logo-text { font-size: 2rem; color: var(--white); font-weight: 700; letter-spacing: 1px; line-height: 1; transition: var(--transition-smooth); }
         .logo:hover .logo-text { color: var(--gold); }
@@ -51,6 +51,17 @@
         .nav-links a:hover::after { width: 100%; }
         .nav-links a:hover { color: var(--gold); }
         
+        /* Mobile Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
         .btn-gold {
             background: transparent; border: 1px solid var(--gold); color: var(--gold);
             padding: 12px 25px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
@@ -129,12 +140,39 @@
         .admin-secret-link { color: rgba(255,255,255,0.2); font-size: 0.7rem; text-decoration: none; transition: 0.3s; }
         .admin-secret-link:hover { color: var(--gold); }
 
+        /* Responsive Design for Mobile & Tablets */
         @media (max-width: 1024px) {
-            .hero-title { font-size: 4rem; }
+            header { padding: 20px 20px; }
+            header.scrolled { padding: 15px 20px; }
+            .hero-title { font-size: 3.2rem; }
             .stats-container { grid-template-columns: 1fr; gap: 20px; padding: 0 20px; }
-            .notice-section { flex-direction: column; gap: 40px; }
+            .notice-section { flex-direction: column; gap: 40px; padding: 0 20px; }
             .notice-header { position: relative; top: 0; }
-            .nav-links { display: none; }
+            
+            /* Show Hamburger Button */
+            .menu-toggle { display: block; }
+            
+            /* Hide links by default on mobile, show when 'active' class is added via JS */
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 17, 40, 0.98);
+                backdrop-filter: blur(15px);
+                padding: 30px 0;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                border-bottom: 2px solid var(--gold);
+                text-align: center;
+                gap: 25px;
+                z-index: 1000;
+            }
+            .nav-links.active {
+                display: flex !important;
+            }
+            .nav-wrapper .btn-gold { display: none; }
         }
     </style>
 </head>
@@ -146,12 +184,20 @@
                 <span class="logo-text">Apex Elite</span>
                 <span class="logo-sub">International</span>
             </a>
-            <ul class="nav-links">
+            
+            <!-- Mobile Menu Toggle Button -->
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links" id="navLinks">
                 <li><a href="/about">About Us</a></li>
                 <li><a href="/notices">Notices</a></li>
                 <li><a href="/teacher-login">Teacher Login</a></li>
                 <li><a href="/student-login">Student Login</a></li>
             </ul>
+
             <a href="tel:9171539844" class="btn-gold"><i class="fas fa-phone-alt"></i> Give a Call</a>
         </div>
     </header>
@@ -202,7 +248,7 @@
             <h2>Latest<br>Dispatches</h2>
             <p>Stay informed with the latest updates, event schedules, and academic announcements from our faculty.</p>
             <a href="/notices" class="btn-gold" style="margin-bottom: 15px; display: inline-flex;">View All Notices</a><br>
-            <a href="/teacher-login" style="color: var(--royal-blue); text-decoration: underline; font-size: 0.85srem; font-weight: 600;">Faculty Portal Login</a>
+            <a href="/teacher-login" style="color: var(--royal-blue); text-decoration: underline; font-size: 0.85rem; font-weight: 600;">Faculty Portal Login</a>
         </div>
         
         <div class="notice-feed">
@@ -257,6 +303,35 @@
             }
         });
 
+        // Bulletproof Mobile Menu Toggle Logic
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Hero Slider Logic
         const slides = document.querySelectorAll('.hero-slide');
         const dotsContainer = document.getElementById('sliderDots');
         let currentSlide = 0;
